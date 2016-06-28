@@ -7,7 +7,7 @@ DROP TABLE species;
 
 CREATE TABLE species_all (id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
                       name VARCHAR (20),
-                      charge TINYINT, 
+                      charge TINYINT default 0, 
                       hydrogen TINYINT UNSIGNED default 0,
                       helium TINYINT UNSIGNED default 0,
                       carbon TINYINT UNSIGNED default 0,
@@ -34,7 +34,7 @@ CREATE TABLE species_all (id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
                      );
 CREATE TABLE species (id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
                       name VARCHAR (20),
-                      charge TINYINT, 
+                      charge TINYINT default 0, 
                       hydrogen TINYINT UNSIGNED default 0,
                       helium TINYINT UNSIGNED default 0,
                       carbon TINYINT UNSIGNED default 0,
