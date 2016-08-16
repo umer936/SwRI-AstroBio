@@ -2,8 +2,9 @@
 
 -- CREATE DATABASE astrobio;
 
-DROP TABLE species_all;
-DROP TABLE species;
+DROP TABLE IF EXISTS species_all;
+DROP TABLE IF EXISTS species;
+DROP TABLE IF EXISTS species_names;
 
 CREATE TABLE species_all (id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
                       name VARCHAR (20),
@@ -57,7 +58,13 @@ CREATE TABLE species (id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
                       f TINYINT,
                       temperature float,
                       pressure float,
-                      UNIQUE (charge, hydrogen, helium, carbon, nitrogen, fluorine, phosphorus, sulfur, chlorine, sodium, magnesium, aluminum, silicon, potassium, calcium, titanium),
+                      UNIQUE (charge, hydrogen, helium, carbon, nitrogen, oxygen, fluorine, phosphorus, sulfur, chlorine, sodium, magnesium, aluminum, silicon, potassium, calcium),
+                      PRIMARY KEY (id)
+                     );
+CREATE TABLE species_names (id MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                      name VARCHAR (20),
+                      proper_name VARCHAR (60),
+                      UNIQUE (name),
                       PRIMARY KEY (id)
                      );
 
@@ -66,6 +73,9 @@ LOAD DATA INFILE '/web/phidrates/AstroBio/SpeciesMNew.txt' IGNORE INTO TABLE spe
 SET id=NULL;
 LOAD DATA INFILE '/web/phidrates/AstroBio/SpeciesMNew.txt' IGNORE INTO TABLE species FIELDS TERMINATED BY ',' IGNORE 1 LINES 
     (name, charge, hydrogen, helium, carbon, nitrogen, oxygen, fluorine, phosphorus, sulfur, chlorine, sodium, magnesium, aluminum, silicon, potassium, calcium, titanium, iron, molmass, n, f, temperature, pressure)
+SET id=NULL;
+LOAD DATA INFILE '/web/phidrates/AstroBio/Names.txt' IGNORE INTO TABLE species_names FIELDS TERMINATED BY ',' 
+    (name, proper_name) 
 SET id=NULL;
 
 SELECT name, charge, hydrogen, helium, carbon, nitrogen, fluorine, phosphorus, sulfur, chlorine, sodium, magnesium, aluminum, silicon, potassium, calcium, titanium, iron, molmass, n, f, temperature, pressure FROM species INTO OUTFILE '/tmp/SpeciesNoDupes.txt';
