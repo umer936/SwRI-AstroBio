@@ -34,7 +34,8 @@
      3  SSAge = 4.568E+09)                                 ! in years.  
       dimension jStoich(MxStoich, NYDim)
       real :: k
-      dimension tlog(MxNt)
+!      dimension tlog(MxNt)
+      common /comtlog/ tlog(MxNt)
       dimension YP(NYDim)
       integer, parameter :: MxReac = 8000, LTabl = 30000, LIW = 160000, 
      1  LCW = 120000                                        ! NSym = 7 
@@ -88,7 +89,7 @@ c      character*8 Speci, Symbol(7,MxReac), SpecIn, x, Quelle
       end if
       itime = 1
       t = 0.0
-      dtlg = 0.05             ! Logarithmic time step.  
+      dtlg = 0.075              ! Logarithmic time step.  
 !      dtlg = 1.0             ! Logarithmic time step.  
 !      dtlg = 0.50            ! Logarithmic time step.  
 !      dtlg = 0.20            ! Logarithmic time step.  
@@ -125,7 +126,7 @@ c      character*8 Speci, Symbol(7,MxReac), SpecIn, x, Quelle
 !      tLim = 1.0E+09                   ! sec
 !      tLim = 1.0E+08                   ! sec
 !      tLim = 1.0E+07                   ! sec
-      tLim = 1.0E+04                   ! sec
+      tLim = 1.0E+08                   ! sec
 !      tLim = 1.0E+01                   ! sec
       if(tLim .gt. MxtLim) then
         write(unit = *, fmt = *) " tLim = ", tLim, " sec,  "
@@ -406,9 +407,11 @@ c      character*8 Speci, Symbol(7,MxReac), SpecIn, x, Quelle
      3  ", NRoot =", NRoot, ", iError =", iError, ", Mint =", Mint, 
      4  ", Miter =", Miter, ", Impl =", Impl, ", Ml =", Ml, ", Mu =", 
      5  Mu, ", MxOrd =", MxOrd
+
       call sdrvb3(NYDim, t, Y, FChem, NState, tOut, NTask, NRoot, eps, 
      1  ewt, iError, mint, miter, impl, ml, mu, MxOrd, hmax, work, 
      2  LenW, iWork, LeniW, FChem, FChem, NDE, MxStep, FChem)
+
 !      write(unit = *, fmt = *) " After call sdrvb3:  **** t =", t   ,
 !     1  " Y(1-3,7,9,43) =", (Y(ii), ii = 1, 3), Y(7), Y(9), Y(43)
 !      pause
@@ -556,7 +559,8 @@ c      character*8 Speci, Symbol(7,MxReac), SpecIn, x, Quelle
 ! *****
 !      data NState/1/, NTask/3/, eps/1.0e-04/, ewt/599*0.001, 1.0e-04/ ! 599 = NYDim - 1
 !      data NState/1/, NTask/3/, eps/1.0e-03/, ewt/599*0.001, 1.0e-04/ ! 599 = NYDim - 1
-      data NState/1/, NTask/3/, eps/1.0e-02/, ewt/599*0.001, 1.0e-04/ ! 599 = NYDim - 1
+!      data NState/1/, NTask/3/, eps/1.0e-02/, ewt/599*0.001, 1.0e-04/ ! 599 = NYDim - 1
+      data NState/1/, NTask/3/, eps/1.0e-05/, ewt/599*0.001, 1.0e-04/ ! 599 = NYDim - 1
 !      data NState/1/, NTask/3/, eps/1.0e-02/, ewt/599*0.01, 1.0e-04/ ! 599 = NYDim - 1
 !      data NState/1/, NTask/3/, eps/1.0e-02/, ewt/599*0.001, 1.0e-02/ ! 599 = NYDim - 1
 !      data NState/1/, NTask/3/, eps/1.0e-01/, ewt/599*0.1, 1.0e-01/ ! 599 = NYDim - 1
